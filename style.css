@@ -1,0 +1,99 @@
+/* flexbox*/
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/*sets the font for the body*/
+body{
+  font-family:Arial;
+}
+/*more main body*/
+a{
+  text-decoration:none;
+}
+title_img {
+  max-width: 25%;
+  max-height:15%;
+  float: left;
+}
+/*hyperlink styling*/
+#click_me{
+  background-color:black;
+  font-size: 50px;
+  padding:5px;
+  border-radius:5px;
+  color:white;
+}
+/*Navigation menu*/
+nav{
+  color: white;
+  background-color:black;
+  padding:5px;
+  border-radius: 5px;
+}
+/* additional navigation menu styling, sets the shadow for the text in the menu*/
+nav a{
+  color:black;
+  margin:0 10px 0 10px;
+  text-shadow: 2px 2px 8px green;
+}
+/*this is the styling information for the banner*/
+#banner{
+  font-size: 50px;
+  font-family: 'Copperplate', fantasy;
+  display:flexbox;
+  justify:center;
+  background-color:rgba(150, 150, 255, 0.8);
+  color: black;
+  margin-left: 500px;
+  margin-right: 500px;
+  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-radius: 60px;
+  text-align: center;
+}
+/*this is the stying information for the entire body, includes the transparent background*/
+#main{
+  font-size: 40px;
+  color: black;
+  
+  padding:px;
+  border-radius: 5px;
+  text-align: center;
+}
+/*additional flexbox information for text right of the map*/
+#grouping{
+  flex:1;
+}
+/*this aligns the content right of the map*/
+#grouping div{
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+/*footer styling information*/
+#footer{
+  font-size: 20px;
+  color: black;
+  background-color:rgba(224, 224, 224, 0.8);
+  padding:5px;
+  border-radius: 60px;
+  flex: 1;
+}
+/*game description text*/
+#disc{
+  font-size: 25px;
+  color: black;
+  background-color:rgba(224, 224, 224, 0.8);
+  padding:5px;
+  border-radius: 60px;
+  flex: 1;
+}
+#full_disc{
+  text-align: center;
+}
+#toptips{
+  text-align: left;
+}

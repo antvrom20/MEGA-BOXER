@@ -1,0 +1,255 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.1.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+    <script src="script.js"></script>
+    <script src="punch.js"></script>
+    <script src="enemy.js"></script>
+  </head>
+
+    <body>
+      <a-scene loading-screen="dotsColor: red; backgroundColor: pink"  light="defaultLightsEnabled: false" >
+        <a-assets>
+          <!-- models -->
+          <a-asset_item id="sonicrun" src="gltf/sonic/movement/forward.glb"></a-asset_item>
+          <a-asset_item id="kid" src="avatar_slick_jake/kid.gltf"></a-asset_item>
+          <a-asset_item id="sonicpunch" src="gltf/sonic/punch/punch_a.glb"></a-asset_item>
+          <a-asset_item id="gokuwalk" src="gltf/goku/movement/forward.glb"></a-asset_item>
+          <a-asset_item id="gokupunch" src="gltf/goku/punch/punch_a.glb"></a-asset_item>
+          <a-asset_item id="fireball" src="gltf/fireball.glb"></a-asset_item>
+          <a-asset_item id="glove" src="gltf/glove.glb"></a-asset_item>
+          <a-asset_item id="leftglove" src="gltf/glove.glb"></a-asset_item>
+          <a-asset_item id="rightglove" src="rglove.glb"></a-asset_item>
+          <a-asset_item id="gym" src="gym_gltf/gym.gltf"></a-asset_item>
+          <!-- sounds -->
+          <audio id="soundFile1" src="sfx/bass_punch.mp3"></audio>
+          <audio id="soundFile2" src="sfx/gore_punch.mp3"></audio>
+          <audio id="soundFile3" src="sfx/punch_alt.wav"></audio>
+          <audio id="powerSoundFile" src="sfx/fireball_sound.wav"></audio>
+          <audio id="bgMusic" src="openyourheart.mp3"></audio>
+          <audio id="loseMusic" src="game_over.mp3"></audio>
+          <audio id="winMusic" src="win_music.mp3"></audio>
+          <audio id="walk" src="walking.mp3"></audio>
+          <!-- images -->
+          <img id="crosshair" src="Crosshair.png">
+          <img id="hudImage" src="icon.png">
+          <img id="hudBackground" src="gamebg.png">
+        </a-assets>
+        
+        <a-entity gltf-model="#gym" scale="25 25 25" rotation="0 180 0" position="0 0 -12.5"></a-entity>
+        <a-entity id="tree" rotation="0 180 0" position="0 0 12.5">
+          <a-sphere src= "treetex/mrsunshine.jpg" rotation="0 -90 0" position="0 4 -5" radius="1.25"></a-sphere>
+          <a-sphere src= "treetex/p diddy.jpg" rotation="0 -90 0" position="-1 3 -5" radius="1.25"></a-sphere>
+          <a-sphere src= "treetex/kanye.jpg" rotation="0 -90 0" position="1 3 -5" radius="1.25"></a-sphere>
+          <a-cylinder src= "treetex/mystical tree.jpg" rotation="0 -180 0" position="0 0.75 -5" radius="0.7" height="3.5"></a-cylinder>
+        </a-entity>
+        
+
+        <!-- script for title screen -->
+        <script>
+          setTimeout(() => {
+            canPressEnter = true;
+          }, 5000);
+
+          document.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+              if (!canPressEnter) {
+                return;
+              }
+
+              gameStarted = true;
+
+              // show health bar
+              document.querySelector("#health-ui").setAttribute("visible", "true");
+
+              // show gloves
+              document.querySelector("#glovemover").setAttribute("visible", "true");
+              document.querySelector("#rightglovemover").setAttribute("visible", "true");
+
+              // play background music
+              const soundEntity = document.querySelector("#bg_sound");
+              soundEntity.components.sound.playSound();
+
+              // hide on-screen instructions
+              document.querySelector("#gameText").setAttribute("visible", false);
+              document.querySelector("#controlsText").setAttribute("visible", false);
+
+              // hide background image
+              const bg = document.querySelector("#hudBg");
+              const img = document.querySelector("#hudImageEntity");
+              bg.setAttribute("visible", false);
+              img.setAttribute("visible", false);
+              bg.setAttribute("material", "opacity: 0");
+              img.setAttribute("material", "opacity: 0");
+            }
+          });
+        </script>
+
+        
+        <!-- lights -->
+        <a-entity light="type: ambient; color: #BBB"></a-entity>
+        <a-entity light="type: directional; color: #FFF; intensity: 0.6" position="-0.5 1 1"></a-entity>
+
+        
+          
+        
+        <a-sky color="lightblue"></a-sky>
+        
+        <a-camera  head-bob wasd-controls  position="0 2.5 0" fov="60" look-controls="pointerLockEnabled: true" >
+          <a-cursor id="customCursor"
+            raycaster="objects: [interact]"
+            geometry="primitive: plane; width: 0.04; height: 0.04"
+            scale="1 1 1"
+            color="lightgreen"
+            material="shader: flat; src: #crosshair; transparent: true"
+            position="0 0 -1" raycaster="objects: [interact]">
+            
+            <!-- hud background -->
+            <a-image id="hudBg" src="#hudBackground" position="0 0 -0.5" width="8.6" height="4"></a-image>
+            <!-- header text -->
+            <a-text id="gameText" value="Press Enter to Start" position="0 0.7 -0.5" color="Red" align="center" font="https://cdn.aframe.io/fonts/Exo2Bold.fnt"></a-text>
+            <!-- controls text -->
+            <a-text id="controlsText"
+              color="red"
+              value="WASD: Move\nMouse: Look\n Space: Block\n Q: Punch\nE: Power Punch!"
+              position="0 -0.2 -0.5" color="white" align="left"
+              font="https://cdn.aframe.io/fonts/Exo2Bold.fnt">
+            </a-text>
+            <!-- hud small icon -->
+            <a-image id="hudImageEntity" src="#hudImage" position="-1 0 -0.5" width="1" height="1"></a-image>
+            <!-- time and score -->
+            <a-text id="time" scale="0.5 0.5 0.5" position="1.75 1 -1" color="white" value="Time: "></a-text>
+            <a-text id="score" scale="0.5 0.5 0.5" position="1.75 0.85 -1" color="white" value="Score: "></a-text>
+            <a-text id="cooldownText" value="" color="yellow" position="0 -1.2 -0.5" align="center" width="4"></a-text>
+            <!-- ending screens -->
+            <a-image id="gameOver" scale="3 3 3" src="GameOver.png" opacity="0" position="0 1 -2"></a-image>
+            <a-image id="missionComplete" scale="3 3 3" src="MissionComplete.png" opacity="0" position="0 1 -2"></a-image>
+            <a-text id="playAgain" value="Play Again" position="0 -0.5 -2" align="center" color="white" width="4" visible="false"></a-text>
+            <!-- sounds -->
+            <a-entity id="sound1" sound="src: #soundFile1"></a-entity>
+            <a-entity id="sound2" sound="src: #soundFile2"></a-entity>
+            <a-entity id="sound3" sound="src: #soundFile3"></a-entity>
+            <a-entity id="powerSound" sound="src: #powerSoundFile"></a-entity>
+            <a-entity id="bg_sound" sound="src: #bgMusic; autoplay: false; loop: true"></a-entity>
+            <a-entity id="lose_sound" sound="src: #loseMusic; autoplay: false; loop: false"></a-entity>
+            <a-entity id="win_sound" sound="src: #winMusic; autoplay: false; loop: false"></a-entity>
+          </a-cursor> 
+          <a-entity id="glovemover"gltf-model="#leftglove" 
+            position="-0.3 -0.2 -0.4" 
+            rotation="0 0 0"
+            scale="0.05 0.05 0.05"
+            visible="false">
+          </a-entity>
+
+
+          <!-- right glove -->
+          <a-entity id="rightglovemover" gltf-model="#rightglove" 
+            position="0.3 -0.2 -0.4" 
+            rotation="0 180 0"
+            scale="0.05 0.05 0.05"
+            visible="false">
+          </a-entity>
+          <a-entity 
+            id="walk" 
+            sound="src: #walkAudio; autoplay: false; loop: true; volume: 1.0"
+          ></a-entity>
+        </a-camera>
+        
+        <a-entity id="health-ui" visible="false" position="-1.25 0.75 -1.5" scale="0.6 0.6 0.6">
+          <!-- background bar -->
+          <a-plane id="health-bg" color="black" width="1.2" height="0.2" position="-0.05 0 0"></a-plane>
+
+          <!-- health bar (green) -->
+          <a-plane id="health-bar-inner" color="green" width="1" height="0.15" position="-0.05 0 0.01"></a-plane>
+
+          <!-- shield addon (blue) -->
+          <a-plane id="shield-bar-addon" color="blue" width="0" height="0.15" position="0.5 0 0.02"></a-plane>
+
+          <!-- shield border (glow) -->
+          <a-plane id="shield-border" color="lightblue" width="0" height="0.18" position="0.5 0 0.03" opacity="0.5"></a-plane>
+
+          <!-- health number text (below health bar) -->
+          <a-text id="health-number" value="100" color="white" position="-0.55 -0.15 0.05" align="left" width="1.5"></a-text>
+        </a-entity>
+      </a-scene>
+      <!-- end screen overlay (hidden by default) -->
+      <div id="endScreen" 
+           style="
+             display: none; 
+             position: fixed;
+              font-family: 'Copperplate', fantasy;
+             top: 0; 
+             left: 0; 
+             width: 100%; 
+             height: 100%; 
+             background: rgba(0,0,0,0.8); 
+             color: white; 
+             text-align: center; 
+             padding-top: 10%; 
+             z-index: 9999;
+           ">
+        <h1 id="resultText" style="font-size: 3em; margin-bottom: 0.5em;">Game Over</h1>
+        <p id="statsText" style="font-size: 2em; margin-bottom: 1em;">Kills: 0 | Time: 0</p>
+        <p id="statsText" style="font-size: 2em; margin-bottom: 1em;">(Press esc to get mouse control)</p>
+
+
+        <button id="playAgainBtn"
+                style="
+                  font-size: 1.5em; 
+                  padding: 0.5em 1em; 
+                  cursor: pointer;
+                ">
+          Play Again
+        </button>
+      </div>
+      <div id="loadingOverlay" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.85);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Copperplate', fantasy;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      ">
+      <div id="loadingMessage" style="font-size: 2em; margin-bottom: 20px;">
+        Loading assets, please wait...
+      </div>
+      <!-- css -->
+      <div id="spinner" style="
+          border: 8px solid #e69500;
+          border-top: 8px solid #3498db;
+          border-radius: 50%;
+          width: 60px;
+          height: 60px;
+          animation: spin 1s linear infinite;
+      "></div>
+      <button id="startButton" style="
+          display: none;
+          margin-top: 30px;
+          font-size: 1.5em;
+          padding: 0.5em 1em;
+          cursor: pointer;
+      ">Proceed</button>
+      </div>
+
+      <style>
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      </style>
+
+
+
+
+
+    </body>
+</html>
