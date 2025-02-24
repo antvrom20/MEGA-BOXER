@@ -1,0 +1,11 @@
+Model Information:
+* title:	avatar_slick_jake
+* source:	https://sketchfab.com/3d-models/avatar-slick-jake-2ddc9fcce8184612b8f7669ea54386c2
+* author:	Gummibar Chikn Nuggit (https://sketchfab.com/noahgrau2gmail.con)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "avatar_slick_jake" (https://sketchfab.com/3d-models/avatar-slick-jake-2ddc9fcce8184612b8f7669ea54386c2) by Gummibar Chikn Nuggit (https://sketchfab.com/noahgrau2gmail.con) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
