@@ -16,7 +16,7 @@ we can add these features back in!
 Top Tips!
 
 So, the game may seem pretty easy at face value, but it's actually quite hard to beat. Here are some tips to help you out:
-- The standard punch is the most effective, but the power punch is the most powerful. The power punch is a little stronger, but it's much more clumsier to use, has a two second cooldown, and is somewhat inaccureate!
+- The standard punch is the most effective, but the power punch is the most powerful. The power punch is a little stronger, but it's much more clumsier to use, has a two second cooldown, and is somewhat inaccurate!
 - The enemy spawn rate is pretty high, and it can seriosly get overwheling at times! The best way to go about this is to use your space to your advantage. Feel free to move around the space!
 - The extremely mystical tree of weirdos is very powerful...but it's also very dangerous. It'll kill any enemy that gets too close to it, but it's very spiteful. It thinks that you should've been able to kill those enemies, so out of spite, it does some damage to you! Make sure the enemies don't touch it!
 - Keep your guard up! When you attack, your gloves arent at your face to protect you, so enemies do slightly more damage! It may not seem noticible at first, but when you're surrounded by enemies...
